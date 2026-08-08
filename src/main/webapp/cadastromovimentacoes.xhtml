@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+>
+
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{cadastroMovimentacaoBean.movimentacao.id}"/>
+        <f:viewAction action="#{cadastroMovimentacaoBean.prepararCadastro()}" 
+                      if="#{param.id ne null}" />
+    </f:metadata>
+
+    <ui:define name="titulo">
+        Cadastro de Movimentação
+    </ui:define>
+
+    <ui:define name="corpo">
+
+        <h:form>
+
+            <p:growl id="growl" showDetail="true" />
+
+            <p:panelGrid columns="2" layout="grid"
+                columnClasses="ui-grid-col-3,ui-grid-col-9"
+                styleClass="ui-panelgrid-blank ui-fluid"
+                style="border:0; background:transparent">
+
+                <p:outputLabel value="Tipo:" />
+                <p:selectOneMenu value="#{cadastroMovimentacaoBean.movimentacao.tipoMovimentacao}">
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                    <f:selectItem itemLabel="Entrada" itemValue="ENTRADA" />
+                    <f:selectItem itemLabel="Saída" itemValue="SAIDA" />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Produto:" />
+                <p:selectOneMenu value="#{cadastroMovimentacaoBean.produtoId}">
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                    <f:selectItems
+                        value="#{cadastroMovimentacaoBean.produtos}"
+                        var="produto"
+                        itemValue="#{produto.id}"
+                        itemLabel="#{produto.nome}" 
+                    />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Fornecedor:" />
+                <p:selectOneMenu value="#{cadastroMovimentacaoBean.fornecedorId}">
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                    <f:selectItems
+                        value="#{cadastroMovimentacaoBean.fornecedores}"
+                        var="fornecedor"
+                        itemValue="#{fornecedor.id}"
+                        itemLabel="#{fornecedor.nome}" 
+                    />
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Quantidade:" />
+                <p:inputText value="#{cadastroMovimentacaoBean.movimentacao.qtde}" required="true" />
+
+                <p:outputLabel value="Data:" />
+                <p:datePicker value="#{cadastroMovimentacaoBean.movimentacao.data}" 
+                              required="true" />
+
+            </p:panelGrid>
+
+            <p:commandButton value="Salvar"
+                             actionListener="#{cadastroMovimentacaoBean.salvar}"
+                             icon="pi pi-save"
+                             update="@form" />
+
+            <p:button value="Cancelar"
+                      icon="pi pi-times"
+                      outcome="consultamovimentacoes" />
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+</html>

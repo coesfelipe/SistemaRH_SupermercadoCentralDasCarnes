@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+
+    <ui:define name="titulo">Consulta de Movimentações</ui:define>
+
+    <ui:define name="corpo">
+        <h:form id="formMov">
+
+            <style>
+                button.ui-button {
+                    margin-right: .3rem;
+                }
+            </style>
+
+            <p:growl id="messages" showDetail="true" />
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:button icon="pi pi-plus" 
+                              value="Novo" 
+                              title="Novo" 
+                              outcome="cadastromovimentacoes" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable var="mov" 
+                         value="#{consultaMovimentacoesBean.movimentacoes}"
+                         reflow="true" paginator="true" rows="10"
+                         paginatorPosition="bottom"
+                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                <p:column headerText="Tipo de Movimentação">
+                    <h:outputText value="#{mov.tipoMovimentacao}" />
+                </p:column>
+                <p:column headerText="Fornecedor">
+                    <h:outputText value="#{mov.fornecedor.nome}" />
+                </p:column>
+
+                <p:column headerText="Produto">
+                    <h:outputText value="#{mov.produto.nome}" />
+                </p:column>
+
+                <p:column headerText="Qtde">
+                    <h:outputText value="#{mov.qtde}" />
+                </p:column>
+
+                <p:column headerText="Data">
+                    <h:outputText value="#{mov.data}" />
+                </p:column>
+
+                <p:column headerText="Ações">
+                    <p:button title="Alterar" 
+                              icon="pi pi-pencil" 
+                              outcome="cadastromovimentacoes">
+                        <f:param name="id" value="#{mov.id}" />
+                    </p:button>
+
+                    <p:commandButton title="Excluir" 
+                                     icon="pi pi-trash"
+                                     process="@this"
+                                     oncomplete="PF('deleteDialog').show()">
+                        <f:setPropertyActionListener 
+                            value="#{mov}"
+                            target="#{consultaMovimentacoesBean.movimentacaoSelecionada}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:confirmDialog widgetVar="deleteDialog" 
+                             showEffect="fade" 
+                             width="350"
+                             message="Exclusão de Movimentação?"  
+                             header="Confirmação" 
+                             severity="warn">
+
+                <p:commandButton value="Sim" 
+                                 icon="pi pi-check"
+                                 actionListener="#{consultaMovimentacoesBean.excluir}"
+                                 process="@this" 
+                                 update="formMov"
+                                 oncomplete="PF('deleteDialog').hide()" />
+
+                <p:commandButton value="Não" 
+                                 type="button" 
+                                 styleClass="ui-button-secondary" 
+                                 icon="pi pi-times"
+                                 onclick="PF('deleteDialog').hide()" />
+
+            </p:confirmDialog>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>

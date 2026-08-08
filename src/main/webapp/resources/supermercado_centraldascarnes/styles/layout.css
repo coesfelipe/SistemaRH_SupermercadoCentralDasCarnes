@@ -1,0 +1,122 @@
+:root {
+	--aw-primary: #1e94d2;
+	--aw-primary-dark: #147bb0;
+	--aw-sidebar-bg: #fafafa;
+	--aw-border: #e5e7eb;
+	--aw-text: #374151;
+	--aw-text-muted: #6b7280;
+	--aw-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+	--aw-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+	--aw-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   TOPBAR
+   ============================================ */
+.aw-topbar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	min-height: 90px;
+	z-index: 9999;
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-end; /* mantém o toggle encostado na direita */
+	cursor: default;
+	background-color: var(--aw-primary);
+	background-image: linear-gradient(180deg, var(--aw-primary) 0%, var(--aw-primary-dark) 100%);
+	box-shadow: var(--aw-shadow-md);
+}
+
+/* logo centralizada de verdade na barra, independente do toggle */
+.aw-topbar .logo-topbar {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	height: 150px !important; /* cabe com folga dentro dos 50px da topbar */
+	width: auto !important;
+	max-width: none;
+	margin: 0;
+	transition: opacity var(--aw-transition);
+	object-fit: contain;
+	cursor: pointer;
+}
+
+.aw-topbar .logo-topbar:hover {
+	opacity: 0.9;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.aw-sidebar {
+	position: fixed;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	width: 210px;
+	margin-left: -211px;
+	z-index: 9998;
+	transition: margin-left var(--aw-transition), box-shadow var(--aw-transition);
+	overflow-y: auto;
+
+	background-color: var(--aw-sidebar-bg);
+	border-right: 1px solid var(--aw-border);
+}
+
+.aw-sidebar.is-toggled {
+	margin-left: 0px;
+	box-shadow: var(--aw-shadow-md);
+}
+
+/* subtle custom scrollbar */
+.aw-sidebar::-webkit-scrollbar {
+	width: 6px;
+}
+
+.aw-sidebar::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.15);
+	border-radius: 3px;
+}
+
+.aw-sidebar::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+@media (min-width: 960px) {
+	.aw-sidebar {
+		margin-left: 0px;
+		box-shadow: none;
+	}
+
+	.aw-sidebar.is-toggled {
+		margin-left: -211px;
+		box-shadow: none;
+	}
+}
+
+/* ============================================
+   CONTENT
+   ============================================ */
+.aw-content {
+	padding: 0 15px;
+	margin-top: 7rem;
+	transition: margin-left var(--aw-transition);
+
+	color: var(--aw-text);
+}
+
+@media (min-width: 960px) {
+	.aw-content {
+		margin-left: 210px;
+	}
+
+	.aw-content.is-toggled {
+		margin-left: 0;
+	}
+}
+
